@@ -35,6 +35,10 @@ struct Movie {
         self.synopsis = movieDetailsResponse.overview
         self.imageUrl = "https://image.tmdb.org/t/p/w500" + movieDetailsResponse.backdropPath
         self.posterUrl = "https://image.tmdb.org/t/p/w300" + movieDetailsResponse.posterPath
+        self.duration = movieDetailsResponse.runtime
+        self.categories = movieDetailsResponse.genres.map({ genre -> String in
+            genre.name
+        })
     }
     
     func getCategoriesAsString() -> String {

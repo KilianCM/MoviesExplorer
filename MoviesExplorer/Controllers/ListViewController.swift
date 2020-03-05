@@ -27,7 +27,6 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         let moviesRepository = MoviesRepository()
         moviesRepository.getMoviesList() { response in
             if let movies = response {
-                print(movies)
                 self.movies = movies.transformToMovieArray()
                 DispatchQueue.main.async() {
                     self.tableView.reloadData()

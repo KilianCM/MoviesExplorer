@@ -34,8 +34,7 @@ class MovieTableViewCell: UITableViewCell {
             self.dateLabel.text = String(year)
         }
         self.synopsisLabel.text = movie.synopsis
-        
-        
+
         if let url = movie.getImageUrl() {
             networkManager.downloadImage(from: url) { image in
                 DispatchQueue.main.async() {
