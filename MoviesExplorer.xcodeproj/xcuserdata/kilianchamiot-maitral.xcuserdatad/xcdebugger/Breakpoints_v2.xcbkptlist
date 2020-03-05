@@ -148,69 +148,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "67F23972-115D-47BF-BBA9-D5AD967FFD75"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MoviesExplorer/Controllers/MovieViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
-            landmarkName = "MovieViewController"
-            landmarkType = "3">
-            <Locations>
-               <Location
-                  uuid = "67F23972-115D-47BF-BBA9-D5AD967FFD75 - e769656c7512189e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MoviesExplorer.MovieViewController.movie.getter : MoviesExplorer.Movie"
-                  moduleName = "MoviesExplorer"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kilianchamiot-maitral/Documents/LPDIM/iOS/MoviesExplorer/MoviesExplorer/Controllers/MovieViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21"
-                  offsetFromSymbolStart = "330">
-               </Location>
-               <Location
-                  uuid = "67F23972-115D-47BF-BBA9-D5AD967FFD75 - ef5aa6674acde6c9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MoviesExplorer.MovieViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; MoviesExplorer.MovieViewController"
-                  moduleName = "MoviesExplorer"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kilianchamiot-maitral/Documents/LPDIM/iOS/MoviesExplorer/MoviesExplorer/Controllers/MovieViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21"
-                  offsetFromSymbolStart = "930">
-               </Location>
-               <Location
-                  uuid = "67F23972-115D-47BF-BBA9-D5AD967FFD75 - 371e8b662feeec1a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MoviesExplorer.MovieViewController.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;MoviesExplorer.MovieViewController&gt;"
-                  moduleName = "MoviesExplorer"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kilianchamiot-maitral/Documents/LPDIM/iOS/MoviesExplorer/MoviesExplorer/Controllers/MovieViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21"
-                  offsetFromSymbolStart = "863">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "5EE13105-D26C-46E1-86B1-00F2FCA9CDC8"
             shouldBeEnabled = "No"
             ignoreCount = "0"

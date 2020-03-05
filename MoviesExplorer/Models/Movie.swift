@@ -9,6 +9,7 @@
 import Foundation
 
 struct Movie {
+    var id: Int
     var title: String
     var subtitle: String?
     var year: Int?
@@ -20,9 +21,20 @@ struct Movie {
     var posterUrl: String?
     
     init(from movieResponse: MovieResponse) {
+        self.id = movieResponse.id
         self.title = movieResponse.title
         self.year = Int(String(movieResponse.releaseDate.prefix(4)))
         self.synopsis = movieResponse.overview
+        self.imageUrl = "https://image.tmdb.org/t/p/w300" + movieResponse.backdropPath
+    }
+    
+    init(from movieDetailsResponse: MovieDetailsResponse) {
+        self.id = movieDetailsResponse.id
+        self.title = movieDetailsResponse.title
+        self.year = Int(String(movieDetailsResponse.releaseDate.prefix(4)))
+        self.synopsis = movieDetailsResponse.overview
+        self.imageUrl = "https://image.tmdb.org/t/p/w500" + movieDetailsResponse.backdropPath
+        self.posterUrl = "https://image.tmdb.org/t/p/w300" + movieDetailsResponse.posterPath
     }
     
     func getCategoriesAsString() -> String {

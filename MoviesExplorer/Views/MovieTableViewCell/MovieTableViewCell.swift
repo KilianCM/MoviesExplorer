@@ -45,7 +45,6 @@ class MovieTableViewCell: UITableViewCell {
         }
     }
     
-
     /**
         Clear data to avoid cached data reused when an item has no data
      */

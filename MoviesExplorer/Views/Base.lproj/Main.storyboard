@@ -21,13 +21,14 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cXx-Jz-M2S">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="512.5"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rush-background" translatesAutoresizingMaskIntoConstraints="NO" id="2rN-5N-ndW">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2rN-5N-ndW">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="270"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="270" id="6Ir-Ye-ku7"/>
                                                 </constraints>
                                             </imageView>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rush-poster" translatesAutoresizingMaskIntoConstraints="NO" id="ubm-RZ-MP8">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ubm-RZ-MP8">
                                                 <rect key="frame" x="281" y="200" width="103" height="140"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <constraints>
@@ -229,8 +230,6 @@
     </scenes>
     <resources>
         <image name="play.circle.fill" catalog="system" width="64" height="60"/>
-        <image name="rush-background" width="1100" height="825"/>
-        <image name="rush-poster" width="753" height="1024"/>
         <image name="text.quote" catalog="system" width="64" height="50"/>
     </resources>
 </document>

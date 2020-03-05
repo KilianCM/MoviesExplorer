@@ -22,33 +22,40 @@ class MovieViewController: UIViewController {
     
     //var movie = Movie(title: "Rush", subtitle: "Two rivals, one incredible true story.", year: 2013, duration: 123, categories: ["Drame", "Biopic"], synopsis: "RUSH retrace le passionnant et haletant combat entre deux des plus grands rivaux que l’histoire de la Formule 1 ait jamais connus, celui de James Hunt et Niki Lauda concourant pour les illustres écuries McLaren et Ferrari. Issu de la haute bourgeoisie, charismatique et beau garçon, tout oppose le play-boy anglais James Hunt à Niki Lauda, son adversaire autrichien, réservé et méthodique. RUSH suit la vie frénétique de ces deux pilotes, sur les circuits et en dehors, et retrace la rivalité depuis leurs tout débuts.", trailerUrl: "https://www.youtube.com/watch?v=lzNbGH1oZJc")
     
+    var movieId: Int = 0
     var movie: Movie?
     let networkManager = NetworkManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
-        if movie?.getTrailerUrl() != nil {
-            playButton.isHidden = false
+        let moviesRepository = MoviesRepository()
+        moviesRepository.getMovieDetails(id: movieId) { response in
+            if let movieResponse = response {
+                let movie = Movie(from: movieResponse)
+                print(movie)
+                self.movie = movie
+                DispatchQueue.main.async() {
+                    if movie.getTrailerUrl() != nil {
+                        self.playButton.isHidden = false
+                    }
+                    self.displayMovieInformation(movie: movie)
+                    self.displayMovieImages(movie: movie)
+                }
+            }
         }
-        
-        titleLabel.text = movie?.title
-        subtitleLabel.text = movie?.subtitle
-        if let year = movie?.year {
-            yearLabel.text = String(year)
-        }
-        durationLabel.text = movie?.getDurationAsString()
-        categoriesLabel.text = movie?.getCategoriesAsString()
-        synopsisLabel.text = movie?.synopsis
-        if let url = movie?.getImageUrl() {
+    }
+    
+    
+    private func displayMovieImages(movie: Movie) {
+        if let url = movie.getImageUrl() {
             networkManager.downloadImage(from: url) { image in
                 DispatchQueue.main.async() {
                     self.movieImageView.image = image
                 }
             }
         }
-        if let url = movie?.getPosterUrl() {
+        if let url = movie.getPosterUrl() {
             networkManager.downloadImage(from: url) { image in
                 DispatchQueue.main.async() {
                     self.posterImageView.image = image
@@ -57,10 +64,21 @@ class MovieViewController: UIViewController {
         }
     }
 
-    @IBAction func playTrailerVideo(_ sender: Any) {
-        if let url = movie?.getTrailerUrl() {
-            UIApplication.shared.open(url)
+    private func displayMovieInformation(movie: Movie) {
+        titleLabel.text = movie.title
+        subtitleLabel.text = movie.subtitle
+        if let year = movie.year {
+            yearLabel.text = String(year)
         }
+        durationLabel.text = movie.getDurationAsString()
+        categoriesLabel.text = movie.getCategoriesAsString()
+        synopsisLabel.text = movie.synopsis
+    }
+    
+    @IBAction func playTrailerVideo(_ sender: Any) {
+//        if let url = movie?.getTrailerUrl() {
+//            UIApplication.shared.open(url)
+//        }
     }
 }
 
