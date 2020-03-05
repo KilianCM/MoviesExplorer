@@ -11,13 +11,19 @@ import Foundation
 struct Movie {
     var title: String
     var subtitle: String?
-    var year: Int
+    var year: Int?
     var duration: Int?
     var categories: [String]?
     var synopsis: String?
     var trailerUrl: String?
     var imageUrl: String?
     var posterUrl: String?
+    
+    init(from movieResponse: MovieResponse) {
+        self.title = movieResponse.title
+        self.year = Int(String(movieResponse.releaseDate.prefix(4)))
+        self.synopsis = movieResponse.overview
+    }
     
     func getCategoriesAsString() -> String {
         guard let categories = self.categories else {

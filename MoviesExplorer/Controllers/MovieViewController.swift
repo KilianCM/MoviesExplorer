@@ -23,6 +23,7 @@ class MovieViewController: UIViewController {
     //var movie = Movie(title: "Rush", subtitle: "Two rivals, one incredible true story.", year: 2013, duration: 123, categories: ["Drame", "Biopic"], synopsis: "RUSH retrace le passionnant et haletant combat entre deux des plus grands rivaux que l’histoire de la Formule 1 ait jamais connus, celui de James Hunt et Niki Lauda concourant pour les illustres écuries McLaren et Ferrari. Issu de la haute bourgeoisie, charismatique et beau garçon, tout oppose le play-boy anglais James Hunt à Niki Lauda, son adversaire autrichien, réservé et méthodique. RUSH suit la vie frénétique de ces deux pilotes, sur les circuits et en dehors, et retrace la rivalité depuis leurs tout débuts.", trailerUrl: "https://www.youtube.com/watch?v=lzNbGH1oZJc")
     
     var movie: Movie?
+    let networkManager = NetworkManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,18 +42,16 @@ class MovieViewController: UIViewController {
         categoriesLabel.text = movie?.getCategoriesAsString()
         synopsisLabel.text = movie?.synopsis
         if let url = movie?.getImageUrl() {
-            NetworkManager.getData(from: url) { data, response, error in
-                guard let data = data, error == nil else { return }
+            networkManager.downloadImage(from: url) { image in
                 DispatchQueue.main.async() {
-                    self.movieImageView.image = UIImage(data: data)
+                    self.movieImageView.image = image
                 }
             }
         }
         if let url = movie?.getPosterUrl() {
-            NetworkManager.getData(from: url) { data, response, error in
-                guard let data = data, error == nil else { return }
+            networkManager.downloadImage(from: url) { image in
                 DispatchQueue.main.async() {
-                    self.posterImageView.image = UIImage(data: data)
+                    self.posterImageView.image = image
                 }
             }
         }
