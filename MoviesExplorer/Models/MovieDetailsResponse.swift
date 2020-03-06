@@ -18,6 +18,7 @@ struct MovieDetailsResponse: Decodable {
     let video: Bool
     let runtime: Int
     let genres: [Genre]
+    let videos: MovieVideosResponse
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -29,6 +30,7 @@ struct MovieDetailsResponse: Decodable {
         case video
         case runtime
         case genres
+        case videos
     }
 }
 

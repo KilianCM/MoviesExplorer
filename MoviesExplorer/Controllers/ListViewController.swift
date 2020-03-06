@@ -16,6 +16,10 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     let segueIdentifier = "showDetailsSegue"
 
     var movies: [Movie] = []
+    let networkManager = NetworkManager()
+    let moviesRepository = MoviesRepository()
+
+    var imagesCache: [Int:UIImage] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +28,6 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.register(UINib(nibName: "MovieTableViewCell", bundle: nil /*or Bundle.main*/), forCellReuseIdentifier: movieCellIdentifier) // link cells with MovieTableViewCell XIB
         tableView.reloadData()
         
-        let moviesRepository = MoviesRepository()
         moviesRepository.getMoviesList() { response in
             if let movies = response {
                 self.movies = movies.transformToMovieArray()
@@ -44,6 +47,18 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.prepareForReuse()
         let movie = movies[indexPath.item]
         cell.fillDataWith(movie: movie)
+        if let image = imagesCache[movie.id] {
+            cell.displayImage(image)
+        } else {
+            if let url = movie.getImageUrl() {
+                networkManager.downloadImage(from: url) { image in
+                    if let image = image {
+                        cell.displayImage(image)
+                        self.imagesCache[movie.id] = image
+                    }
+                }
+            }
+        }
         return cell
     }
     

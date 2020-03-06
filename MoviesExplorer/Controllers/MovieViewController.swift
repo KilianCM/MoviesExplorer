@@ -32,7 +32,7 @@ class MovieViewController: UIViewController {
             if let movieResponse = response {
                 let movie = Movie(from: movieResponse)
                 self.movie = movie
-                self.loadTrailerUrl(id: movie.id)
+                self.loadTrailerUrl(from: movieResponse.videos)
                 DispatchQueue.main.async() {
                     self.displayMovieInformation(movie: movie)
                     self.displayMovieImages(movie: movie)
@@ -44,15 +44,11 @@ class MovieViewController: UIViewController {
     /**
         Request to API to get a Youtube trailer URL
      */
-    private func loadTrailerUrl(id: Int) {
-        moviesRepository.getMovieVideos(id: id) { movieVideosResponse in
-            if let response = movieVideosResponse {
-                let urlList = response.results.toUrlList()
-                if !urlList.isEmpty {
-                    self.movie?.trailerUrl = urlList[0]
-                    self.displayPlayButton()
-                }
-            }
+    private func loadTrailerUrl(from movieVideos: MovieVideosResponse) {
+        let urlList = movieVideos.results.toUrlList()
+        if !urlList.isEmpty {
+            self.movie?.trailerUrl = urlList[0]
+            self.displayPlayButton()
         }
     }
     

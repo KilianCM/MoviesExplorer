@@ -24,7 +24,7 @@ struct MovieListResponse: Decodable {
     }
     
     func transformToMovieArray() -> [Movie] {
-        return self.results.map { movieReponse -> Movie in
+        return self.results.compactMap { movieReponse -> Movie in
             Movie(from: movieReponse)
         }
     }

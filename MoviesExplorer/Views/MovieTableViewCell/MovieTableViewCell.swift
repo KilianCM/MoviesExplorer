@@ -14,9 +14,7 @@ class MovieTableViewCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var synopsisLabel: UILabel!
     @IBOutlet weak var movieImageView: UIImageView!
-    
-    let networkManager = NetworkManager()
-    
+        
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -34,13 +32,11 @@ class MovieTableViewCell: UITableViewCell {
             self.dateLabel.text = String(year)
         }
         self.synopsisLabel.text = movie.synopsis
-
-        if let url = movie.getImageUrl() {
-            networkManager.downloadImage(from: url) { image in
-                DispatchQueue.main.async() {
-                    self.movieImageView.image = image
-                }
-            }
+    }
+    
+    func displayImage(_ image: UIImage) {
+        DispatchQueue.main.async() {
+            self.movieImageView.image = image
         }
     }
     

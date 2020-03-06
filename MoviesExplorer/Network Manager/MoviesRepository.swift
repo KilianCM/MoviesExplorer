@@ -35,7 +35,7 @@ struct MoviesRepository {
         Make request to MovieDB API to get details for a specific movie
      */
     func getMovieDetails(id: Int, completion: @escaping ((MovieDetailsResponse?) -> Void)) {
-        var detailsUrl = buildUrl(path: ApiEndpoint.details)
+        var detailsUrl = buildUrl(path: ApiEndpoint.details, queryParams: [URLQueryItem(name: "append_to_response", value: "videos")])
         detailsUrl?.path += String(id)
         if let url = detailsUrl?.url {
             session.dataTask(with: url, completionHandler: { data, response, error in
@@ -45,16 +45,6 @@ struct MoviesRepository {
         }
     }
     
-    func getMovieVideos(id: Int, completion: @escaping ((MovieVideosResponse?) -> Void)) {
-        var detailsUrl = buildUrl(path: ApiEndpoint.details)
-        detailsUrl?.path += "\(String(id))/videos"
-        if let url = detailsUrl?.url {
-            session.dataTask(with: url, completionHandler: { data, response, error in
-                guard let data = data, error == nil else { return }
-                completion(try? JSONDecoder().decode(MovieVideosResponse.self, from: data))
-            }).resume()
-        }
-    }
     /**
         Create an URLComponent object with an API endpoint and query params
      */

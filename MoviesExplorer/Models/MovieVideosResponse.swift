@@ -9,7 +9,6 @@
 import Foundation
 
 struct MovieVideosResponse: Decodable {
-    let id: Int
     let results: [MovieVideo]
 }
 
