@@ -52,7 +52,6 @@ struct Movie {
         guard let duration = self.duration else {
             return "-"
         }
-        
         return "\(duration) min"
     }
     

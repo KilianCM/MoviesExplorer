@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct MovieDetailsResponse: Codable {
+struct MovieDetailsResponse: Decodable {
     let id: Int
     let backdropPath: String
     let overview: String
@@ -32,7 +32,7 @@ struct MovieDetailsResponse: Codable {
     }
 }
 
-struct Genre: Codable {
+struct Genre: Decodable {
     let id: Int
     let name: String
 }

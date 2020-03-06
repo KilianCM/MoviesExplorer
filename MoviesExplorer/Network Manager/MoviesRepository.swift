@@ -38,7 +38,6 @@ struct MoviesRepository {
         var detailsUrl = buildUrl(path: ApiEndpoint.details)
         detailsUrl?.path += String(id)
         if let url = detailsUrl?.url {
-            print(url)
             session.dataTask(with: url, completionHandler: { data, response, error in
                 guard let data = data, error == nil else { return }
                 completion(try? JSONDecoder().decode(MovieDetailsResponse.self, from: data))
@@ -46,13 +45,25 @@ struct MoviesRepository {
         }
     }
     
+    func getMovieVideos(id: Int, completion: @escaping ((MovieVideosResponse?) -> Void)) {
+        var detailsUrl = buildUrl(path: ApiEndpoint.details)
+        detailsUrl?.path += "\(String(id))/videos"
+        if let url = detailsUrl?.url {
+            session.dataTask(with: url, completionHandler: { data, response, error in
+                guard let data = data, error == nil else { return }
+                completion(try? JSONDecoder().decode(MovieVideosResponse.self, from: data))
+            }).resume()
+        }
+    }
     /**
         Create an URLComponent object with an API endpoint and query params
      */
     private func buildUrl(path: ApiEndpoint, queryParams: [URLQueryItem]? = nil) -> URLComponents? {
         var url = URLComponents(string: "\(self.baseUrl)\(path.rawValue)")
-        let apiKeyParam = URLQueryItem(name: "api_key", value: self.apiKey)
-        url?.queryItems = [apiKeyParam]
+        url?.queryItems = [
+            URLQueryItem(name: "api_key", value: self.apiKey),
+            URLQueryItem(name: "language", value: "fr-FR")
+        ]
         if let params = queryParams {
             url?.queryItems! += params
         }

@@ -23,6 +23,7 @@
 		B5C074BF241100E7000611E9 /* MovieListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C074BE241100E7000611E9 /* MovieListResponse.swift */; };
 		B5C074C124110108000611E9 /* MovieDetailsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C074C024110108000611E9 /* MovieDetailsResponse.swift */; };
 		B5C074C3241127A8000611E9 /* MoviesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C074C2241127A8000611E9 /* MoviesRepository.swift */; };
+		B5C074C7241150D0000611E9 /* MovieVideosResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C074C6241150D0000611E9 /* MovieVideosResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		B5C074BE241100E7000611E9 /* MovieListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListResponse.swift; sourceTree = "<group>"; };
 		B5C074C024110108000611E9 /* MovieDetailsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsResponse.swift; sourceTree = "<group>"; };
 		B5C074C2241127A8000611E9 /* MoviesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesRepository.swift; sourceTree = "<group>"; };
+		B5C074C6241150D0000611E9 /* MovieVideosResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieVideosResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 				B564B627240E95F500EDA484 /* Movie.swift */,
 				B5C074BE241100E7000611E9 /* MovieListResponse.swift */,
 				B5C074C024110108000611E9 /* MovieDetailsResponse.swift */,
+				B5C074C6241150D0000611E9 /* MovieVideosResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -239,6 +242,7 @@
 				B564B613240E500800EDA484 /* AppDelegate.swift in Sources */,
 				B5C074C3241127A8000611E9 /* MoviesRepository.swift in Sources */,
 				B53D5CFD240FBBD100C7FF03 /* MovieTableViewCell.swift in Sources */,
+				B5C074C7241150D0000611E9 /* MovieVideosResponse.swift in Sources */,
 				B564B628240E95F600EDA484 /* Movie.swift in Sources */,
 				B5C074BF241100E7000611E9 /* MovieListResponse.swift in Sources */,
 				B58C7D4A24100AAA0009A616 /* NetworkManager.swift in Sources */,

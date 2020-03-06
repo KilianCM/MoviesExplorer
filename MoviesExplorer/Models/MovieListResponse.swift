@@ -12,7 +12,7 @@ import Foundation
 
 import Foundation
 
-struct MovieListResponse: Codable {
+struct MovieListResponse: Decodable {
     let page, totalResults, totalPages: Int
     let results: [MovieResponse]
 
@@ -30,7 +30,7 @@ struct MovieListResponse: Codable {
     }
 }
 
-struct MovieResponse: Codable {
+struct MovieResponse: Decodable {
     let id: Int
     let backdropPath: String
     let genres: [Int]

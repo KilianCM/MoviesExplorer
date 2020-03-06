@@ -20,25 +20,20 @@ class MovieViewController: UIViewController {
     @IBOutlet weak var posterImageView: UIImageView!
     @IBOutlet weak var movieImageView: UIImageView!
     
-    //var movie = Movie(title: "Rush", subtitle: "Two rivals, one incredible true story.", year: 2013, duration: 123, categories: ["Drame", "Biopic"], synopsis: "RUSH retrace le passionnant et haletant combat entre deux des plus grands rivaux que l’histoire de la Formule 1 ait jamais connus, celui de James Hunt et Niki Lauda concourant pour les illustres écuries McLaren et Ferrari. Issu de la haute bourgeoisie, charismatique et beau garçon, tout oppose le play-boy anglais James Hunt à Niki Lauda, son adversaire autrichien, réservé et méthodique. RUSH suit la vie frénétique de ces deux pilotes, sur les circuits et en dehors, et retrace la rivalité depuis leurs tout débuts.", trailerUrl: "https://www.youtube.com/watch?v=lzNbGH1oZJc")
-    
     var movieId: Int = 0
     var movie: Movie?
     let networkManager = NetworkManager()
+    let moviesRepository = MoviesRepository()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        let moviesRepository = MoviesRepository()
         moviesRepository.getMovieDetails(id: movieId) { response in
             if let movieResponse = response {
                 let movie = Movie(from: movieResponse)
-                print(movie)
                 self.movie = movie
+                self.loadTrailerUrl(id: movie.id)
                 DispatchQueue.main.async() {
-                    if movie.getTrailerUrl() != nil {
-                        self.playButton.isHidden = false
-                    }
                     self.displayMovieInformation(movie: movie)
                     self.displayMovieImages(movie: movie)
                 }
@@ -46,7 +41,33 @@ class MovieViewController: UIViewController {
         }
     }
     
+    /**
+        Request to API to get a Youtube trailer URL
+     */
+    private func loadTrailerUrl(id: Int) {
+        moviesRepository.getMovieVideos(id: id) { movieVideosResponse in
+            if let response = movieVideosResponse {
+                let urlList = response.results.toUrlList()
+                if !urlList.isEmpty {
+                    self.movie?.trailerUrl = urlList[0]
+                    self.displayPlayButton()
+                }
+            }
+        }
+    }
     
+    /**
+        Remove the hidden property for the Play button
+     */
+    private func displayPlayButton() {
+        DispatchQueue.main.async() {
+            self.playButton.isHidden = false
+        }
+    }
+ 
+    /**
+        Request to API to download movie image and movie poster and display these images in ImageView
+     */
     private func displayMovieImages(movie: Movie) {
         if let url = movie.getImageUrl() {
             networkManager.downloadImage(from: url) { image in
@@ -64,6 +85,9 @@ class MovieViewController: UIViewController {
         }
     }
 
+    /**
+        Populate UILabels with movie information
+     */
     private func displayMovieInformation(movie: Movie) {
         titleLabel.text = movie.title
         subtitleLabel.text = movie.subtitle
@@ -75,10 +99,13 @@ class MovieViewController: UIViewController {
         synopsisLabel.text = movie.synopsis
     }
     
+    /**
+        Open the trailer URL on click on Play button
+     */
     @IBAction func playTrailerVideo(_ sender: Any) {
-//        if let url = movie?.getTrailerUrl() {
-//            UIApplication.shared.open(url)
-//        }
+        if let url = movie?.getTrailerUrl() {
+            UIApplication.shared.open(url)
+        }
     }
 }
 
