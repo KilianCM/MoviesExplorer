@@ -65,14 +65,14 @@ class MovieViewController: UIViewController {
      */
     private func displayMovieImages(movie: Movie) {
         if let url = movie.getImageUrl() {
-            NetworkManager.shared.downloadImage(from: url) { image in
+            ImageCache.shared.getImage(url: url) { image in
                 DispatchQueue.main.async() {
                     self.movieImageView.image = image
                 }
             }
         }
         if let url = movie.getPosterUrl() {
-            NetworkManager.shared.downloadImage(from: url) { image in
+            ImageCache.shared.getImage(url: url) { image in
                 DispatchQueue.main.async() {
                     self.posterImageView.image = image
                 }

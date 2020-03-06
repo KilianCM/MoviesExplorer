@@ -30,7 +30,9 @@ struct MoviesRepository {
         Make request to MovieDB API to get details for a specific movie
      */
     func getMovieDetails(id: Int, completion: @escaping ((MovieDetailsResponse?) -> Void)) {
-        var detailsUrl = APIManager.shared.buildUrl(path: ApiEndpoint.details, queryParams: [URLQueryItem(name: "append_to_response", value: "videos")])
+        var detailsUrl = APIManager.shared.buildUrl(path: ApiEndpoint.details, queryParams: [
+            URLQueryItem(name: "append_to_response", value: "videos")
+        ])
         detailsUrl?.path += String(id)
         if let url = detailsUrl?.url {
             NetworkManager.shared.fetchData(url) { data in

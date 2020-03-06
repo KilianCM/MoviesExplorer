@@ -15,12 +15,11 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     let movieCellIdentifier = "MovieCellId"
     let titleCellIdentifier = "TitleCellId"
     let segueIdentifier = "showDetailsSegue"
-
-    var movies: [Movie] = []
     let moviesRepository = MoviesRepository()
 
-    var imagesCache: [Int:UIImage] = [:]
-    var isLoading = false
+    var movies: [Movie] = []
+    var imagesCache: [String:UIImage] = [:]
+    var category: Category? = Category(from: Genre(id: 14, name: "Fantastique"))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,14 +29,14 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.register(UINib(nibName: "CategoryTitleTableViewCell", bundle: nil /*or Bundle.main*/), forCellReuseIdentifier: titleCellIdentifier)
         tableView.reloadData()
         
-        moviesRepository.getMoviesList() { response in
+        moviesRepository.getMoviesList(categoryId: category?.id, completion: { response in
             if let movies = response {
                 self.movies = movies.transformToMovieArray()
                 DispatchQueue.main.async() {
                     self.tableView.reloadData()
                 }
             }
-        }
+        })
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -83,24 +82,31 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.prepareForReuse()
         let movie = movies[index.item]
         cell.fillDataWith(movie: movie)
-        if let image = imagesCache[movie.id] {
-            cell.displayImage(image)
-        } else {
-            if let url = movie.getImageUrl() {
-                NetworkManager.shared.downloadImage(from: url) { image in
-                    if let image = image {
-                        cell.displayImage(image)
-                        self.imagesCache[movie.id] = image
-                    }
+        
+        if let url = movie.getImageUrl() {
+            ImageCache.shared.getImage(url: url) { image in
+                DispatchQueue.main.async() {
+                    cell.displayImage(image)
                 }
             }
         }
+//        if let image = imagesCache[movie.imageUrl] {
+//        } else {
+//            if let url = movie.getImageUrl() {
+//                NetworkManager.shared.downloadImage(from: url) { image in
+//                    if let image = image {
+//                        cell.displayImage(image)
+//                        self.imagesCache[movie.imageUrl] = image
+//                    }
+//                }
+//            }
+//        }
         return cell
     }
     
     func createCategoryCell(_ tableView: UITableView,_ index: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: titleCellIdentifier, for: index) as! CategoryTitleTableViewCell
-        cell.titleLabel.text = "Action"
+        cell.titleLabel.text = category?.name
         return cell
     }
     

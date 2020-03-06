@@ -33,8 +33,3 @@ struct MovieDetailsResponse: Decodable {
         case videos
     }
 }
-
-struct Genre: Decodable {
-    let id: Int
-    let name: String
-}

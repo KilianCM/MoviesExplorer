@@ -15,6 +15,7 @@ struct MovieVideosResponse: Decodable {
 struct MovieVideo: Decodable {
     let key: String
     let site: String
+    let type: String
     
     func transformToStringUrl() -> String? {
         if self.site == "YouTube" {

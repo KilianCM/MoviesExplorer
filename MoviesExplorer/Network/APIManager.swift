@@ -36,4 +36,5 @@ struct APIManager {
 enum ApiEndpoint: String {
     case list = "/discover/movie"
     case details = "/movie/"
+    case categories = "/genre/movie/list"
 }
