@@ -18,7 +18,6 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     let moviesRepository = MoviesRepository()
 
     var movies: [Movie] = []
-    var imagesCache: [String:UIImage] = [:]
     var category: Category? = Category(from: Genre(id: 14, name: "Fantastique"))
     
     override func viewDidLoad() {
@@ -82,7 +81,6 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.prepareForReuse()
         let movie = movies[index.item]
         cell.fillDataWith(movie: movie)
-        
         if let url = movie.getImageUrl() {
             ImageCache.shared.getImage(url: url) { image in
                 DispatchQueue.main.async() {
@@ -90,17 +88,6 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
                 }
             }
         }
-//        if let image = imagesCache[movie.imageUrl] {
-//        } else {
-//            if let url = movie.getImageUrl() {
-//                NetworkManager.shared.downloadImage(from: url) { image in
-//                    if let image = image {
-//                        cell.displayImage(image)
-//                        self.imagesCache[movie.imageUrl] = image
-//                    }
-//                }
-//            }
-//        }
         return cell
     }
     
