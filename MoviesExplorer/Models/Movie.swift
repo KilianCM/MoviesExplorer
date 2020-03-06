@@ -25,12 +25,13 @@ struct Movie {
         self.title = movieResponse.title
         self.year = Int(String(movieResponse.releaseDate.prefix(4)))
         self.synopsis = movieResponse.overview
-        self.imageUrl = APIManager.shared.imageBaseUrl + "w300" + movieResponse.backdropPath
+        self.imageUrl = APIManager.shared.imageBaseUrl + "w500" + movieResponse.backdropPath
     }
     
     init(from movieDetailsResponse: MovieDetailsResponse) {
         self.id = movieDetailsResponse.id
         self.title = movieDetailsResponse.title
+        self.subtitle = movieDetailsResponse.tagline
         self.year = Int(String(movieDetailsResponse.releaseDate.prefix(4)))
         self.synopsis = movieDetailsResponse.overview
         self.imageUrl = APIManager.shared.imageBaseUrl + "w500" + movieDetailsResponse.backdropPath

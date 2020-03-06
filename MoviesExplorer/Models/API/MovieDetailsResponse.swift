@@ -12,6 +12,7 @@ struct MovieDetailsResponse: Decodable {
     let id: Int
     let backdropPath: String
     let overview: String
+    let tagline: String
     let posterPath: String
     let releaseDate: String
     let title: String
@@ -27,6 +28,7 @@ struct MovieDetailsResponse: Decodable {
         case posterPath = "poster_path"
         case releaseDate = "release_date"
         case title
+        case tagline
         case video
         case runtime
         case genres
