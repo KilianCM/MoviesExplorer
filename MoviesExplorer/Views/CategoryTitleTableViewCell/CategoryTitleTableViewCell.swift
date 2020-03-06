@@ -8,9 +8,9 @@
 
 import UIKit
 
-class CountResultsTableViewCell: UITableViewCell {
+class CategoryTitleTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var countResultsLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

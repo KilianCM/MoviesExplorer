@@ -13,6 +13,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var tableView: UITableView!
     
     let movieCellIdentifier = "MovieCellId"
+    let titleCellIdentifier = "TitleCellId"
     let segueIdentifier = "showDetailsSegue"
 
     var movies: [Movie] = []
@@ -20,12 +21,14 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     let moviesRepository = MoviesRepository()
 
     var imagesCache: [Int:UIImage] = [:]
+    var isLoading = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self // delegate = ListViewController because he implements the UITableViewDelegate protocol
         tableView.dataSource = self // dataSource = ListViewController because he implements the UITableViewDataSource protocol
         tableView.register(UINib(nibName: "MovieTableViewCell", bundle: nil /*or Bundle.main*/), forCellReuseIdentifier: movieCellIdentifier) // link cells with MovieTableViewCell XIB
+        tableView.register(UINib(nibName: "CategoryTitleTableViewCell", bundle: nil /*or Bundle.main*/), forCellReuseIdentifier: titleCellIdentifier)
         tableView.reloadData()
         
         moviesRepository.getMoviesList() { response in
@@ -39,13 +42,47 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movies.count
+        switch section {
+            case 0: return 1
+            case 1: return movies.count
+            default: return 0
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: movieCellIdentifier, for: indexPath) as! MovieTableViewCell
+        if indexPath.section == 0 {
+           return createCategoryCell(tableView, indexPath)
+        } else {
+            return createMovieCell(tableView, indexPath)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        if indexPath.section == 1 {
+            self.performSegue(withIdentifier: segueIdentifier, sender: movies[indexPath.item].id)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.alpha = 0
+
+        UIView.animate(
+            withDuration: 0.4,
+            delay: 0.02 * Double(indexPath.row),
+            animations: {
+                cell.alpha = 1
+        })
+    }
+    
+    func createMovieCell(_ tableView: UITableView,_ index: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: movieCellIdentifier, for: index) as! MovieTableViewCell
         cell.prepareForReuse()
-        let movie = movies[indexPath.item]
+        let movie = movies[index.item]
         cell.fillDataWith(movie: movie)
         if let image = imagesCache[movie.id] {
             cell.displayImage(image)
@@ -62,20 +99,10 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        self.performSegue(withIdentifier: segueIdentifier, sender: movies[indexPath.item].id)
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.alpha = 0
-
-        UIView.animate(
-            withDuration: 0.4,
-            delay: 0.02 * Double(indexPath.row),
-            animations: {
-                cell.alpha = 1
-        })
+    func createCategoryCell(_ tableView: UITableView,_ index: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: titleCellIdentifier, for: index) as! CategoryTitleTableViewCell
+        cell.titleLabel.text = "Action"
+        return cell
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
