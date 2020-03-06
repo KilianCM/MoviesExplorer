@@ -11,15 +11,27 @@ import UIKit
 
 struct NetworkManager {
     
-    private let session = URLSession.shared
+    static var shared = NetworkManager()
+    let session = URLSession.shared
        
     /**
         Download an image from URL and transform data into UIImage
      */
     func downloadImage(from url: URL, completion: @escaping ((UIImage?) -> Void)) {
-        session.dataTask(with: url, completionHandler: { data, response, error in
-            guard let data = data, error == nil else { return }
+        fetchData(url) { data in
             completion(UIImage(data: data))
+        }
+    }
+    
+    func fetchData(_ url: URL, completion: @escaping (Data) -> Void) -> Void {
+        self.session.dataTask(with: url, completionHandler: { (data, response, error) in
+            guard error == nil else {
+                return
+            }
+            
+            if let data = data {
+                completion(data)
+            }
         }).resume()
     }
 }

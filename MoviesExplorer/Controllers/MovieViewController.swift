@@ -22,7 +22,6 @@ class MovieViewController: UIViewController {
     
     var movieId: Int = 0
     var movie: Movie?
-    let networkManager = NetworkManager()
     let moviesRepository = MoviesRepository()
     
     override func viewDidLoad() {
@@ -66,14 +65,14 @@ class MovieViewController: UIViewController {
      */
     private func displayMovieImages(movie: Movie) {
         if let url = movie.getImageUrl() {
-            networkManager.downloadImage(from: url) { image in
+            NetworkManager.shared.downloadImage(from: url) { image in
                 DispatchQueue.main.async() {
                     self.movieImageView.image = image
                 }
             }
         }
         if let url = movie.getPosterUrl() {
-            networkManager.downloadImage(from: url) { image in
+            NetworkManager.shared.downloadImage(from: url) { image in
                 DispatchQueue.main.async() {
                     self.posterImageView.image = image
                 }

@@ -17,7 +17,6 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     let segueIdentifier = "showDetailsSegue"
 
     var movies: [Movie] = []
-    let networkManager = NetworkManager()
     let moviesRepository = MoviesRepository()
 
     var imagesCache: [Int:UIImage] = [:]
@@ -88,7 +87,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.displayImage(image)
         } else {
             if let url = movie.getImageUrl() {
-                networkManager.downloadImage(from: url) { image in
+                NetworkManager.shared.downloadImage(from: url) { image in
                     if let image = image {
                         cell.displayImage(image)
                         self.imagesCache[movie.id] = image
