@@ -13,15 +13,6 @@ struct NetworkManager {
     
     static var shared = NetworkManager()
     let session = URLSession.shared
-       
-    /**
-        Download an image from URL and transform data into UIImage
-     */
-    func downloadImage(from url: URL, completion: @escaping ((UIImage?) -> Void)) {
-        fetchData(url) { data in
-            completion(UIImage(data: data))
-        }
-    }
     
     func fetchData(_ url: URL, completion: @escaping (Data) -> Void) -> Void {
         self.session.dataTask(with: url, completionHandler: { (data, response, error) in

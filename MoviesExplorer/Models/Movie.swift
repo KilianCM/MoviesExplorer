@@ -25,7 +25,7 @@ struct Movie {
         self.title = movieResponse.title
         self.year = Int(String(movieResponse.releaseDate.prefix(4)))
         self.synopsis = movieResponse.overview
-        self.imageUrl = "https://image.tmdb.org/t/p/w400" + movieResponse.backdropPath
+        self.imageUrl = APIManager.shared.imageBaseUrl + "w300" + movieResponse.backdropPath
     }
     
     init(from movieDetailsResponse: MovieDetailsResponse) {
@@ -33,8 +33,8 @@ struct Movie {
         self.title = movieDetailsResponse.title
         self.year = Int(String(movieDetailsResponse.releaseDate.prefix(4)))
         self.synopsis = movieDetailsResponse.overview
-        self.imageUrl = "https://image.tmdb.org/t/p/w400" + movieDetailsResponse.backdropPath
-        self.posterUrl = "https://image.tmdb.org/t/p/w200" + movieDetailsResponse.posterPath
+        self.imageUrl = APIManager.shared.imageBaseUrl + "w500" + movieDetailsResponse.backdropPath
+        self.posterUrl = APIManager.shared.imageBaseUrl + "w200" + movieDetailsResponse.posterPath
         self.duration = movieDetailsResponse.runtime
         self.categories = movieDetailsResponse.genres.map({ genre -> String in
             genre.name

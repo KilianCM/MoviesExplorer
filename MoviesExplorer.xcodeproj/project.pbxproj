@@ -29,7 +29,7 @@
 		B5CB7D612412835F00FB69BB /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5CB7D602412835F00FB69BB /* Category.swift */; };
 		B5CB7D63241283C800FB69BB /* CategoryListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5CB7D62241283C800FB69BB /* CategoryListResponse.swift */; };
 		B5CB7D652412857900FB69BB /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5CB7D642412857900FB69BB /* CategoriesViewController.swift */; };
-		B5CB7D672412918400FB69BB /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5CB7D662412918400FB69BB /* ImageCache.swift */; };
+		B5CB7D672412918400FB69BB /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5CB7D662412918400FB69BB /* ImageCacheManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,7 +57,7 @@
 		B5CB7D602412835F00FB69BB /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		B5CB7D62241283C800FB69BB /* CategoryListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListResponse.swift; sourceTree = "<group>"; };
 		B5CB7D642412857900FB69BB /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
-		B5CB7D662412918400FB69BB /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		B5CB7D662412918400FB69BB /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,7 +136,7 @@
 				B5C074C2241127A8000611E9 /* MoviesRepository.swift */,
 				B58C7D4924100AAA0009A616 /* NetworkManager.swift */,
 				B5CB7D5B24127D7F00FB69BB /* APIManager.swift */,
-				B5CB7D662412918400FB69BB /* ImageCache.swift */,
+				B5CB7D662412918400FB69BB /* ImageCacheManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -275,7 +275,7 @@
 				B5C074BF241100E7000611E9 /* MovieListResponse.swift in Sources */,
 				B58C7D4A24100AAA0009A616 /* NetworkManager.swift in Sources */,
 				B58C7D47240FF9550009A616 /* CategoryTitleTableViewCell.swift in Sources */,
-				B5CB7D672412918400FB69BB /* ImageCache.swift in Sources */,
+				B5CB7D672412918400FB69BB /* ImageCacheManager.swift in Sources */,
 				B5CB7D612412835F00FB69BB /* Category.swift in Sources */,
 				B5CB7D5C24127D7F00FB69BB /* APIManager.swift in Sources */,
 				B5805673240FB543000E805C /* ListViewController.swift in Sources */,

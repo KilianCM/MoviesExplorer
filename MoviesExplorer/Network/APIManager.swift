@@ -13,6 +13,7 @@ struct APIManager {
     
     let baseUrl = "https://api.themoviedb.org/3"
     let apiKey = "eb37167bfd6e6ce5bdd51ff7ad360c75"
+    let imageBaseUrl = "https://image.tmdb.org/t/p/"
     
     /**
         Create an URLComponent object with an API endpoint and query params

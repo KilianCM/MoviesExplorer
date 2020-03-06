@@ -16,7 +16,8 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     let titleCellIdentifier = "TitleCellId"
     let segueIdentifier = "showDetailsSegue"
     let moviesRepository = MoviesRepository()
-
+    let imageCacheManager = ImageCacheManager()
+    
     var movies: [Movie] = []
     var category: Category? = Category(from: Genre(id: 14, name: "Fantastique"))
     
@@ -82,9 +83,11 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         let movie = movies[index.item]
         cell.fillDataWith(movie: movie)
         if let url = movie.getImageUrl() {
-            ImageCache.shared.getImage(url: url) { image in
+            imageCacheManager.getImage(url: url) { image, imageUrl in
                 DispatchQueue.main.async() {
-                    cell.displayImage(image)
+                    if imageUrl ==  url.absoluteString {
+                        cell.displayImage(image)
+                    }
                 }
             }
         }

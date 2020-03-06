@@ -9,23 +9,19 @@
 import Foundation
 import UIKit
 
-class ImageCache {
-
-    static var shared = ImageCache()
-    
+class ImageCacheManager {
     var cache: [String: UIImage] = [:]
     
-    func getImage(url: URL, completion: @escaping ((UIImage) -> Void)) {
+    func getImage(url: URL, completion: @escaping ((UIImage, String) -> Void)) {
         if let image = cache[url.absoluteString] {
-            completion(image)
+            completion(image, url.absoluteString)
         } else {
-            NetworkManager.shared.downloadImage(from: url) { image in
-                if let image = image {
+            NetworkManager.shared.fetchData(url) { data in
+                if let image = UIImage(data: data) {
                     self.cache[url.absoluteString] = image
-                    completion(image)
+                    completion(image, url.absoluteString)
                 }
             }
         }
     }
-    
 }

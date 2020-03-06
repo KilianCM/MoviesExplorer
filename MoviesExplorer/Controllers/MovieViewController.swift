@@ -23,6 +23,7 @@ class MovieViewController: UIViewController {
     var movieId: Int = 0
     var movie: Movie?
     let moviesRepository = MoviesRepository()
+    let imageCacheManager = ImageCacheManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,16 +66,20 @@ class MovieViewController: UIViewController {
      */
     private func displayMovieImages(movie: Movie) {
         if let url = movie.getImageUrl() {
-            ImageCache.shared.getImage(url: url) { image in
+            imageCacheManager.getImage(url: url) { image, imageUrl in
                 DispatchQueue.main.async() {
-                    self.movieImageView.image = image
+                    if imageUrl ==  url.absoluteString {
+                        self.movieImageView.image = image
+                    }
                 }
             }
         }
         if let url = movie.getPosterUrl() {
-            ImageCache.shared.getImage(url: url) { image in
+            imageCacheManager.getImage(url: url) { image, imageUrl in
                 DispatchQueue.main.async() {
-                    self.posterImageView.image = image
+                    if imageUrl ==  url.absoluteString {
+                        self.posterImageView.image = image
+                    }
                 }
             }
         }
