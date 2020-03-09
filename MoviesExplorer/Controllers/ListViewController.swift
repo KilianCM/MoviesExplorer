@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ListViewController: UIViewController, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -39,6 +39,41 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         })
     }
     
+    func createMovieCell(_ tableView: UITableView,_ index: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: movieCellIdentifier, for: index) as! MovieTableViewCell
+        cell.prepareForReuse()
+        let movie = movies[index.item]
+        cell.fillDataWith(movie: movie)
+        if let url = movie.getImageUrl() {
+            imageCacheManager.getImage(url: url) { image, imageUrl in
+                DispatchQueue.main.async() {
+                    if imageUrl ==  url.absoluteString {
+                        cell.displayImage(image)
+                    }
+                }
+            }
+        }
+        return cell
+    }
+    
+    func createCategoryCell(_ tableView: UITableView,_ index: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: titleCellIdentifier, for: index) as! CategoryTitleTableViewCell
+        cell.titleLabel.text = category?.name
+        return cell
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == segueIdentifier {
+            let movieViewController = segue.destination as! MovieViewController
+            if let id = sender as? Int {
+                movieViewController.movieId = id
+            }
+        }
+    }
+}
+
+
+extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
             case 0: return 1
@@ -75,37 +110,5 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
             animations: {
                 cell.alpha = 1
         })
-    }
-    
-    func createMovieCell(_ tableView: UITableView,_ index: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: movieCellIdentifier, for: index) as! MovieTableViewCell
-        cell.prepareForReuse()
-        let movie = movies[index.item]
-        cell.fillDataWith(movie: movie)
-        if let url = movie.getImageUrl() {
-            imageCacheManager.getImage(url: url) { image, imageUrl in
-                DispatchQueue.main.async() {
-                    if imageUrl ==  url.absoluteString {
-                        cell.displayImage(image)
-                    }
-                }
-            }
-        }
-        return cell
-    }
-    
-    func createCategoryCell(_ tableView: UITableView,_ index: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: titleCellIdentifier, for: index) as! CategoryTitleTableViewCell
-        cell.titleLabel.text = category?.name
-        return cell
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == segueIdentifier {
-            let movieViewController = segue.destination as! MovieViewController
-            if let id = sender as? Int {
-                movieViewController.movieId = id
-            }
-        }
     }
 }

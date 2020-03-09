@@ -8,30 +8,73 @@
 
 import UIKit
 
-class CategoriesViewController: UIViewController {
+class CategoriesViewController: UIViewController  {
 
-    let categoriesRepository = CategoriesRepository()
+    @IBOutlet weak var collectionView: UICollectionView!
+    
     var categories: [Category] = []
+    
+    let categoriesRepository = CategoriesRepository()
+    let cellIdentifier = "CategoryCollectionViewCell"
+    let segueIdentifier = "showMoviesSegue"
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(UINib(nibName: "CategoryCollectionViewCell", bundle: nil ), forCellWithReuseIdentifier: cellIdentifier)
 
         categoriesRepository.getCategoriesList { response in
             if let genres = response {
                 self.categories = genres.transformToCategoryArray()
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
             }
         }
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == segueIdentifier {
+            let listViewController = segue.destination as! ListViewController
+            if let category = sender as? Category {
+                listViewController.category = category
+            }
+        }
     }
-    */
 
 }
+
+extension CategoriesViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: segueIdentifier, sender: categories[indexPath.item])
+    }
+}
+
+extension CategoriesViewController: UICollectionViewDataSource {
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.categories.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath as IndexPath) as! CategoryCollectionViewCell
+        cell.nameLabel.text = categories[indexPath.item].name
+        if let firstLetter = categories[indexPath.item].name.first {
+            cell.firstLetterLabel.text = String(firstLetter)
+        } else {
+            cell.firstLetterLabel.isHidden = true
+        }
+        return cell
+    }
+}
+
+extension CategoriesViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let padding: CGFloat =  50
+        let collectionViewSize = collectionView.frame.size.width - padding
+
+        return CGSize(width: collectionViewSize/2, height: collectionViewSize/2)
+    }
+}
+

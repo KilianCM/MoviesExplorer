@@ -8,10 +8,6 @@
 
 import Foundation
 
-
-
-import Foundation
-
 struct MovieListResponse: Decodable {
     let page, totalResults, totalPages: Int
     let results: [MovieResponse]
