@@ -9,16 +9,19 @@
 import Foundation
 
 struct CategoryListResponse: Decodable {
-    let genres: [Genre]
+    let genres: [Genre]?
     
     func transformToCategoryArray() -> [Category] {
-        return self.genres.compactMap { genre -> Category in
+        guard let genres = self.genres else {
+            return []
+        }
+        return genres.compactMap { genre -> Category? in
             Category(from: genre)
         }
     }
 }
 
 struct Genre: Decodable {
-    let id: Int
-    let name: String
+    let id: Int?
+    let name: String?
 }

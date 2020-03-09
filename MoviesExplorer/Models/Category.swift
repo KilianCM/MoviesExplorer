@@ -12,8 +12,11 @@ struct Category {
     let id: Int
     let name: String
     
-    init(from genre: Genre) {
-        self.id = genre.id
-        self.name = genre.name
+    init?(from genre: Genre) {
+        guard let id = genre.id, let name = genre.name else {
+            return nil
+        }
+        self.id = id
+        self.name = name
     }
 }

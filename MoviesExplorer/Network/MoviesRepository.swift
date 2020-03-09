@@ -12,8 +12,9 @@ struct MoviesRepository {
     /**
         Make request to MovieDB API to get movies list
      */
-    func getMoviesList(categoryId: Int? = nil, completion: @escaping ((MovieListResponse?) -> Void)) {
+    func getMoviesList(page: Int = 1, categoryId: Int? = nil, completion: @escaping ((MovieListResponse?) -> Void)) {
         var params: [URLQueryItem] = []
+        params.append(URLQueryItem(name: "page", value: "\(page)"))
         if let category = categoryId {
             params.append(URLQueryItem(name: "with_genres", value: "\(category)"))
         }

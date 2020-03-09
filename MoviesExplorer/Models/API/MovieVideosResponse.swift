@@ -9,17 +9,20 @@
 import Foundation
 
 struct MovieVideosResponse: Decodable {
-    let results: [MovieVideo]
+    let results: [MovieVideo]?
 }
 
 struct MovieVideo: Decodable {
-    let key: String
-    let site: String
-    let type: String
+    let key: String?
+    let site: String?
+    let type: String?
     
     func transformToStringUrl() -> String? {
+        guard let key = key else {
+            return nil
+        }
         if self.site == "YouTube" {
-            return "https://www.youtube.com/watch?v=\(self.key)"
+            return "https://www.youtube.com/watch?v=\(key)"
         }
         return nil
     }

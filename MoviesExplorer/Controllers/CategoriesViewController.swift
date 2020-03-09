@@ -59,12 +59,7 @@ extension CategoriesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath as IndexPath) as! CategoryCollectionViewCell
-        cell.nameLabel.text = categories[indexPath.item].name
-        if let firstLetter = categories[indexPath.item].name.first {
-            cell.firstLetterLabel.text = String(firstLetter)
-        } else {
-            cell.firstLetterLabel.isHidden = true
-        }
+        cell.configureWithName(name: categories[indexPath.item].name)
         return cell
     }
 }

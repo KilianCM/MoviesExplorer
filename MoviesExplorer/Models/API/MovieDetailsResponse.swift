@@ -9,17 +9,17 @@
 import Foundation
 
 struct MovieDetailsResponse: Decodable {
-    let id: Int
-    let backdropPath: String
-    let overview: String
-    let tagline: String
-    let posterPath: String
-    let releaseDate: String
-    let title: String
-    let video: Bool
-    let runtime: Int
-    let genres: [Genre]
-    let videos: MovieVideosResponse
+    let id: Int?
+    let backdropPath: String?
+    let overview: String?
+    let tagline: String?
+    let posterPath: String?
+    let releaseDate: String?
+    let title: String?
+    let video: Bool?
+    let runtime: Int?
+    let genres: [Genre]?
+    let videos: MovieVideosResponse?
 
     enum CodingKeys: String, CodingKey {
         case id

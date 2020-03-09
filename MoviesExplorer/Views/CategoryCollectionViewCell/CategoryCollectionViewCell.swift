@@ -22,16 +22,18 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         setCornerRadius()
     }
     
-    func setCornerRadius() {
+    private func setCornerRadius() {
         self.layer.cornerRadius = 10
     }
     
-    func setShadow() {
-        self.layer.shadowColor = UIColor.red.cgColor
-        self.layer.shadowOpacity = 0.5
-        self.layer.shadowOffset = .zero
-        self.layer.shadowRadius = 10
-        self.layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+    func configureWithName(name: String) {
+        nameLabel.text = name
+        if let firstLetter = name.first {
+            firstLetterLabel.text = String(firstLetter)
+        } else {
+            firstLetterLabel.isHidden = true
+        }
     }
+    
 
 }

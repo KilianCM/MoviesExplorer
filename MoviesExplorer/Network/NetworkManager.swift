@@ -19,7 +19,6 @@ struct NetworkManager {
             guard error == nil else {
                 return
             }
-            
             if let data = data {
                 completion(data)
             }

@@ -9,8 +9,8 @@
 import Foundation
 
 struct MovieListResponse: Decodable {
-    let page, totalResults, totalPages: Int
-    let results: [MovieResponse]
+    let page, totalResults, totalPages: Int?
+    let results: [MovieResponse]?
 
     enum CodingKeys: String, CodingKey {
         case page
@@ -20,19 +20,22 @@ struct MovieListResponse: Decodable {
     }
     
     func transformToMovieArray() -> [Movie] {
-        return self.results.compactMap { movieReponse -> Movie in
+        guard let results = self.results else {
+            return []
+        }
+        return results.compactMap { movieReponse -> Movie? in
             Movie(from: movieReponse)
         }
     }
 }
 
 struct MovieResponse: Decodable {
-    let id: Int
-    let backdropPath: String
-    let genres: [Int]
-    let title: String
-    let overview: String
-    let releaseDate: String
+    let id: Int?
+    let backdropPath: String?
+    let genres: [Int]?
+    let title: String?
+    let overview: String?
+    let releaseDate: String?
 
     enum CodingKeys: String, CodingKey {
         case id

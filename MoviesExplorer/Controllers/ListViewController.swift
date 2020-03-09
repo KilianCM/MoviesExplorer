@@ -19,7 +19,9 @@ class ListViewController: UIViewController {
     let imageCacheManager = ImageCacheManager()
     
     var movies: [Movie] = []
-    var category: Category? = Category(from: Genre(id: 14, name: "Fantastique"))
+    var category: Category?
+    var currentPage = 1
+    var endList = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,13 +29,16 @@ class ListViewController: UIViewController {
         tableView.dataSource = self // dataSource = ListViewController because he implements the UITableViewDataSource protocol
         tableView.register(UINib(nibName: "MovieTableViewCell", bundle: nil /*or Bundle.main*/), forCellReuseIdentifier: movieCellIdentifier) // link cells with MovieTableViewCell XIB
         tableView.register(UINib(nibName: "CategoryTitleTableViewCell", bundle: nil /*or Bundle.main*/), forCellReuseIdentifier: titleCellIdentifier)
-        tableView.reloadData()
-        
-        moviesRepository.getMoviesList(categoryId: category?.id, completion: { response in
+        loadData(page: currentPage)
+    }
+    
+    func loadData(page: Int) {
+        moviesRepository.getMoviesList(page: page, categoryId: category?.id, completion: { response in
             if let movies = response {
-                self.movies = movies.transformToMovieArray()
+                self.endList = movies.totalPages == page
+                self.movies += movies.transformToMovieArray()
                 DispatchQueue.main.async() {
-                    self.tableView.reloadData()
+                    self.tableView.reloadSections(IndexSet(arrayLiteral: 1), with: UITableView.RowAnimation.fade)
                 }
             }
         })
@@ -44,12 +49,14 @@ class ListViewController: UIViewController {
         cell.prepareForReuse()
         let movie = movies[index.item]
         cell.fillDataWith(movie: movie)
-        if let url = movie.getImageUrl() {
-            imageCacheManager.getImage(url: url) { image, imageUrl in
-                DispatchQueue.main.async() {
-                    if imageUrl ==  url.absoluteString {
-                        cell.displayImage(image)
-                    }
+        guard let url = movie.getImageUrl() else {
+            return cell
+        }
+
+        imageCacheManager.getImage(url: url) { image, imageUrl in
+            DispatchQueue.main.async() {
+                if imageUrl ==  url.absoluteString {
+                    cell.displayImage(image)
                 }
             }
         }
@@ -112,5 +119,10 @@ extension ListViewController: UITableViewDelegate {
             animations: {
                 cell.alpha = 1
         })
+        
+        if indexPath.row == movies.count - 1 && !endList{
+            currentPage += 1
+            loadData(page: currentPage)
+        }
     }
 }
