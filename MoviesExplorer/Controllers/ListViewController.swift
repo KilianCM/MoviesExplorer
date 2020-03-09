@@ -114,8 +114,8 @@ extension ListViewController: UITableViewDelegate {
         cell.alpha = 0
 
         UIView.animate(
-            withDuration: 0.4,
-            delay: 0.02 * Double(indexPath.row),
+            withDuration: 0.2,
+            delay: 0.1,
             animations: {
                 cell.alpha = 1
         })
