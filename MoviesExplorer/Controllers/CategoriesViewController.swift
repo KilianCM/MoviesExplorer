@@ -17,7 +17,7 @@ class CategoriesViewController: UIViewController  {
     let categoriesRepository = CategoriesRepository()
     let cellIdentifier = "CategoryCollectionViewCell"
     let segueIdentifier = "showMoviesSegue"
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.delegate = self

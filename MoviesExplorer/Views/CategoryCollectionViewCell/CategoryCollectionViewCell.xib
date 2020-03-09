@@ -39,12 +39,6 @@
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="125" height="94"/>
-            <userDefinedRuntimeAttributes>
-                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                    <integer key="value" value="10"/>
-                </userDefinedRuntimeAttribute>
-                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
-            </userDefinedRuntimeAttributes>
             <connections>
                 <outlet property="firstLetterLabel" destination="ikm-YB-n1o" id="cjI-04-pzd"/>
                 <outlet property="nameLabel" destination="kUb-7w-Bt1" id="3sw-3i-yj6"/>

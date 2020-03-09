@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ListViewController: UIViewController, UITableViewDataSource {
+class ListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -72,16 +72,7 @@ class ListViewController: UIViewController, UITableViewDataSource {
     }
 }
 
-
-extension ListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-            case 0: return 1
-            case 1: return movies.count
-            default: return 0
-        }
-    }
-    
+extension ListViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -94,6 +85,17 @@ extension ListViewController: UITableViewDelegate {
         }
     }
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+            case 0: return 1
+            case 1: return movies.count
+            default: return 0
+        }
+    }
+}
+
+
+extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 1 {
