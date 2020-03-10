@@ -17,8 +17,6 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
         self.layer.masksToBounds = false
-        self.layer.shouldRasterize = true
-        //setShadow()
         setCornerRadius()
     }
     
