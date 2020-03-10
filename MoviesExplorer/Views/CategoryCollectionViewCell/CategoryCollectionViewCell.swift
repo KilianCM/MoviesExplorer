@@ -33,5 +33,13 @@ class CategoryCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    static var nib: UINib {
+        UINib(nibName: "CategoryCollectionViewCell", bundle: nil)
+    }
+    
+    static var reuseIdentifier: String {
+        "CategoryCollectionViewCell"
+    }
+    
 
 }

@@ -50,4 +50,12 @@ class MovieTableViewCell: UITableViewCell {
         self.synopsisLabel.text = nil
     }
     
+    static var nib: UINib {
+        return UINib(nibName: "MovieTableViewCell", bundle: nil)
+    }
+    
+    static var reuseIdentifier: String {
+        return "MovieTableViewCell"
+    }
+    
 }

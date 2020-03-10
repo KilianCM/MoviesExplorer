@@ -23,4 +23,12 @@ class CategoryTitleTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    static var nib: UINib {
+        return UINib(nibName: "CategoryTitleTableViewCell", bundle: nil)
+    }
+    
+    static var reuseIdentifier: String {
+        return "CategoryTitleTableViewCell"
+    }
+    
 }

@@ -14,15 +14,15 @@ class CategoriesViewController: UIViewController  {
     
     var categories: [Category] = []
     
-    let categoriesRepository = CategoriesRepository()
-    let cellIdentifier = "CategoryCollectionViewCell"
-    let segueIdentifier = "showMoviesSegue"
+    private let categoriesRepository = CategoriesRepository()
+    private let segueIdentifier = "showMoviesSegue"
         
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(UINib(nibName: "CategoryCollectionViewCell", bundle: nil ), forCellWithReuseIdentifier: cellIdentifier)
+        collectionView.register(CategoryCollectionViewCell.nib, forCellWithReuseIdentifier: CategoryCollectionViewCell.reuseIdentifier)
+        collectionView.register(TitleCollectionViewCell.nib, forCellWithReuseIdentifier: TitleCollectionViewCell.reuseIdentifier)
 
         categoriesRepository.getCategoriesList { response in
             if let genres = response {
@@ -47,20 +47,43 @@ class CategoriesViewController: UIViewController  {
 
 extension CategoriesViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: segueIdentifier, sender: categories[indexPath.item])
+        if indexPath.section == 1 {
+            let cell = collectionView.cellForItem(at: indexPath) as! CategoryCollectionViewCell
+            cell.alpha = 0.5
+            UIView.animate(
+                withDuration: 0.2,
+                delay: 0.1,
+                animations: {
+                    cell.alpha = 1
+            })
+            self.performSegue(withIdentifier: segueIdentifier, sender: categories[indexPath.item])
+        }
     }
 }
 
 extension CategoriesViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.categories.count
+        switch section {
+            case 0: return 1
+            case 1: return categories.count
+            default: return 0
+        }
     }
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
+
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath as IndexPath) as! CategoryCollectionViewCell
-        cell.configureWithName(name: categories[indexPath.item].name)
-        return cell
+        if indexPath.section == 0 {
+            return collectionView.dequeueReusableCell(withReuseIdentifier: TitleCollectionViewCell.reuseIdentifier, for: indexPath as IndexPath) as! TitleCollectionViewCell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.reuseIdentifier, for: indexPath as IndexPath) as! CategoryCollectionViewCell
+            cell.configureWithName(name: categories[indexPath.item].name)
+            return cell
+        }
     }
 }
 
@@ -68,8 +91,10 @@ extension CategoriesViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let padding: CGFloat =  50
         let collectionViewSize = collectionView.frame.size.width - padding
-
-        return CGSize(width: collectionViewSize/2, height: collectionViewSize/2)
+        if indexPath.section == 1 {
+            return CGSize(width: collectionViewSize/2, height: collectionViewSize/2)
+        }
+        return CGSize(width: collectionViewSize, height: collectionViewSize/4)
     }
 }
 
