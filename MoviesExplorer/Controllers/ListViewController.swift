@@ -20,8 +20,8 @@ class ListViewController: UIViewController {
     
     var movies: [Movie] = []
     var category: Category?
-    var currentPage = 1
-    var endList = false
+    private var currentPage = 1
+    private var shouldLoadMoreData = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,13 +32,20 @@ class ListViewController: UIViewController {
         loadData(page: currentPage)
     }
     
-    func loadData(page: Int) {
+    private func loadData(page: Int) {
         moviesRepository.getMoviesList(page: page, categoryId: category?.id, completion: { response in
             if let movies = response {
-                self.endList = movies.totalPages == page
-                self.movies += movies.transformToMovieArray()
+                self.shouldLoadMoreData = page < movies.totalPages ?? 0
+                let newData = movies.transformToMovieArray()
+                var newIndexPaths = [IndexPath]()
+                for rowPosition in 0..<newData.count {
+                    let newIndexPath = IndexPath(row: self.movies.count + rowPosition, section: 1)
+                    newIndexPaths.append(newIndexPath)
+                }
+                self.movies += newData
                 DispatchQueue.main.async() {
-                    self.tableView.reloadSections(IndexSet(arrayLiteral: 1), with: UITableView.RowAnimation.fade)
+                    //self.tableView.reloadSections(IndexSet(arrayLiteral: 1), with: UITableView.RowAnimation.fade)
+                    self.tableView.insertRows(at: newIndexPaths, with: .fade)
                 }
             }
         })
@@ -99,6 +106,7 @@ extension ListViewController: UITableViewDataSource {
             default: return 0
         }
     }
+    
 }
 
 
@@ -120,7 +128,7 @@ extension ListViewController: UITableViewDelegate {
                 cell.alpha = 1
         })
         
-        if indexPath.row == movies.count - 1 && !endList{
+        if indexPath.row == movies.count - 1 && shouldLoadMoreData {
             currentPage += 1
             loadData(page: currentPage)
         }
