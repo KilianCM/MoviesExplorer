@@ -21,7 +21,7 @@ class TheatreMapViewController: UIViewController, MKMapViewDelegate, CLLocationM
         mapView.showsUserLocation = true
         
         // show only movie theater on map
-        mapView.pointOfInterestFilter = .some(MKPointOfInterestFilter(including: [MKPointOfInterestCategory.movieTheater]))
+        mapView.pointOfInterestFilter = MKPointOfInterestFilter(including: [MKPointOfInterestCategory.movieTheater])
 
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -41,5 +41,39 @@ class TheatreMapViewController: UIViewController, MKMapViewDelegate, CLLocationM
         DispatchQueue.main.async {
             self.locationManager.startUpdatingLocation()
         }
+        
+        loadPointOfInterest { mapItems in
+            let annotations = mapItems.compactMap { mapItem -> MKAnnotation? in
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = mapItem.placemark.coordinate
+                annotation.title = mapItem.name
+                annotation.subtitle = mapItem.url?.absoluteString
+                return annotation
+            }
+            DispatchQueue.main.async {
+                self.mapView.addAnnotations(annotations)
+            }
+        }
+    }
+    
+    private func loadPointOfInterest(completion: @escaping (([MKMapItem]) -> Void)) {
+        let request = MKLocalSearch.Request()
+        request.resultTypes = MKLocalSearch.ResultType.pointOfInterest
+        request.pointOfInterestFilter = MKPointOfInterestFilter(including: [MKPointOfInterestCategory.movieTheater])
+        request.region = mapView.region
+        
+        let search = MKLocalSearch(request: request)
+        search.start { response, error in
+            guard let response = response else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error").")
+                return
+            }
+            completion(response.mapItems)
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView)
+    {
+        //TODO: handle click on annotation
     }
 }
